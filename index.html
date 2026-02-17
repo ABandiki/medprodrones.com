@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPro Drones ‚Äî Healthcare Logistics by Drone in Zimbabwe</title>
+    <meta name="description" content="MedPro Drones delivers medical supplies across Zimbabwe using drone technology. Real-time tracking, automated requests, and government-compliant logistics.">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue: #0A7AFF;
+            --blue-dark: #0560CC;
+            --blue-light: #E8F2FF;
+            --dark: #0B1120;
+            --dark-800: #141C2E;
+            --gray-900: #111827;
+            --gray-700: #374151;
+            --gray-500: #6B7280;
+            --gray-400: #9CA3AF;
+            --gray-300: #D1D5DB;
+            --gray-200: #E5E7EB;
+            --gray-100: #F3F4F6;
+            --gray-50: #F9FAFB;
+            --white: #FFFFFF;
+            --teal: #14B8A6;
+            --teal-dark: #0D9488;
+            --teal-light: #CCFBF1;
+            --amber: #F59E0B;
+            --red: #EF4444;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        /* ============ NAV ============ */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+        nav.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        }
+        .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 32px; height: 72px;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 12px;
+            font-weight: 800; font-size: 1.3rem; color: var(--dark);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .logo-icon img {
+            width: 100%; height: 100%; object-fit: contain;
+        }
+        .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--gray-700);
+            font-size: 0.88rem; font-weight: 500;
+            padding: 8px 16px; border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover { color: var(--blue); background: var(--blue-light); }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 28px; border-radius: 8px; font-weight: 600;
+            font-size: 0.93rem; text-decoration: none; transition: all 0.25s ease;
+            cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--blue); color: white; }
+        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(10,122,255,0.3); }
+        .btn-outline { background: transparent; color: var(--blue); border: 2px solid var(--blue); }
+        .btn-outline:hover { background: var(--blue); color: white; }
+        .btn-white { background: white; color: var(--dark); font-weight: 600; }
+        .btn-white:hover { background: var(--gray-100); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .btn-teal { background: var(--teal); color: white; }
+        .btn-teal:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(20,184,166,0.3); }
+        .btn-ghost { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+        .btn-sm { padding: 10px 20px; font-size: 0.85rem; }
+        .btn-lg { padding: 16px 36px; font-size: 1rem; }
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); margin: 6px 0; transition: 0.3s; border-radius: 2px; }
+
+        /* ============ HERO - Wingcopter-inspired full-width carousel ============ */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .hero-slides {
+            position: absolute; inset: 0;
+        }
+        .hero-slide {
+            position: absolute; inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .hero-slide.active { opacity: 1; }
+        .hero-slide-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-slide:nth-child(1) .hero-slide-bg {
+            background: linear-gradient(135deg, #0B1120 0%, #1a2744 40%, #0f3460 100%);
+        }
+        .hero-slide:nth-child(2) .hero-slide-bg {
+            background: linear-gradient(135deg, #042f2e 0%, #0f4c4c 40%, #134e4a 100%);
+        }
+        .hero-slide:nth-child(3) .hero-slide-bg {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e1b4b 100%);
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 60% 40%, rgba(10,122,255,0.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(20,184,166,0.08) 0%, transparent 50%);
+        }
+        .hero-content {
+            position: relative; z-index: 10;
+            max-width: 1280px; margin: 0 auto; padding: 120px 32px 80px;
+            width: 100%;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px; border-radius: 100px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.9);
+            font-size: 0.82rem; font-weight: 500;
+            margin-bottom: 28px;
+            backdrop-filter: blur(4px);
+        }
+        .hero-badge-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--teal);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+            font-weight: 900; color: white;
+            line-height: 1.08; margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            max-width: 700px;
+        }
+        .hero h1 .highlight { color: var(--teal); }
+        .hero-desc {
+            font-size: 1.15rem; color: rgba(255,255,255,0.65);
+            margin-bottom: 40px; max-width: 540px; line-height: 1.7;
+        }
+        .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 60px; }
+
+        /* Hero stats bar */
+        .hero-stats {
+            display: flex; gap: 48px; padding-top: 48px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-stat { color: white; }
+        .hero-stat-value {
+            font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-top: 4px; font-weight: 500; }
+
+        /* Slide indicators */
+        .hero-indicators {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; z-index: 20;
+        }
+        .hero-indicator {
+            width: 40px; height: 3px; border-radius: 3px;
+            background: rgba(255,255,255,0.25); cursor: pointer;
+            transition: all 0.3s;
+            border: none; padding: 0;
+        }
+        .hero-indicator.active { background: white; width: 60px; }
+
+        /* ============ SECTIONS ============ */
+        section { padding: 100px 32px; }
+        .section-inner { max-width: 1280px; margin: 0 auto; }
+        .section-label {
+            text-transform: uppercase; font-size: 0.75rem; font-weight: 700;
+            color: var(--blue); letter-spacing: 3px; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-label::before {
+            content: ''; width: 24px; height: 2px; background: var(--blue);
+            border-radius: 2px;
+        }
+        .section-title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800; color: var(--dark);
+            margin-bottom: 18px; line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            font-size: 1.1rem; color: var(--gray-500);
+            max-width: 600px; margin-bottom: 56px; line-height: 1.7;
+        }
+
+        /* ============ TRUSTED BY / PARTNERS (Wingcopter-inspired) ============ */
+        .partners {
+            padding: 56px 32px;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .partners-inner {
+            max-width: 1280px; margin: 0 auto;
+            text-align: center;
+        }
+        .partners-label {
+            font-size: 0.78rem; font-weight: 600; color: var(--gray-400);
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 32px;
+        }
+        .partners-grid {
+            display: flex; align-items: center; justify-content: center;
+            gap: 48px; flex-wrap: wrap;
+        }
+        .partner-logo {
+            font-size: 0.95rem; font-weight: 700; color: var(--gray-400);
+            padding: 12px 20px; border-radius: 8px;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 10px;
+            letter-spacing: 0.02em;
+        }
+        .partner-logo:hover { color: var(--gray-700); }
+        .partner-logo .p-icon {
+            width: 32px; height: 32px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+
+        /* ============ ABOUT ============ */
+        .about { background: var(--white); }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            align-items: center;
+        }
+        .about-visual {
+            position: relative;
+        }
+        .about-image-main {
+            background: linear-gradient(135deg, var(--blue-light), #dbeafe);
+            border-radius: 20px; aspect-ratio: 4/3;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-image-main::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 60%, rgba(10,122,255,0.1));
+        }
+        .about-float-card {
+            position: absolute; bottom: -24px; right: -24px;
+            background: white; border-radius: 16px; padding: 20px 24px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+            display: flex; align-items: center; gap: 14px;
+        }
+        .about-float-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: var(--teal-light); display: flex;
+            align-items: center; justify-content: center; font-size: 24px;
+        }
+        .about-float-text strong { display: block; font-size: 0.95rem; color: var(--dark); }
+        .about-float-text span { font-size: 0.8rem; color: var(--gray-500); }
+        .about-text h2 { margin-bottom: 24px; }
+        .about-text p {
+            color: var(--gray-700); margin-bottom: 20px; font-size: 1.02rem;
+            line-height: 1.75;
+        }
+        .about-highlights {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+            margin-top: 32px;
+        }
+        .about-highlight {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 14px 16px; border-radius: 10px;
+            background: var(--gray-50);
+        }
+        .about-highlight-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: var(--blue-light); display: flex;
+            align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .about-highlight span {
+            font-size: 0.88rem; font-weight: 600; color: var(--dark);
+        }
+
+        /* ============ FEATURES (InterSystems-inspired cards) ============ */
+        .features { background: var(--gray-50); }
+        .features-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 56px; flex-wrap: wrap; gap: 24px;
+        }
+        .features-header-text { max-width: 550px; }
+        .features-header-text .section-subtitle { margin-bottom: 0; }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+        }
+        .feature-card {
+            background: white; border-radius: 16px; padding: 32px 26px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--blue), var(--teal));
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.08);
+            border-color: transparent;
+        }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; margin-bottom: 20px;
+        }
+        .feature-icon.blue { background: var(--blue-light); }
+        .feature-icon.teal { background: var(--teal-light); }
+        .feature-icon.amber { background: #FEF3C7; }
+        .feature-icon.purple { background: #EDE9FE; }
+        .feature-card h3 {
+            font-size: 1.05rem; font-weight: 700; margin-bottom: 10px;
+            color: var(--dark); line-height: 1.3;
+        }
+        .feature-card p { font-size: 0.88rem; color: var(--gray-500); line-height: 1.65; }
+
+        /* ============ HOW IT WORKS - Interactive Steps ============ */
+        .how-it-works { background: white; }
+        .how-it-works-center { text-align: center; }
+        .how-it-works-center .section-label { justify-content: center; }
+        .how-it-works-center .section-subtitle { margin-left: auto; margin-right: auto; }
+        .steps {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+            margin-top: 56px; position: relative;
+        }
+        .steps::before {
+            content: ''; position: absolute;
+            top: 44px; left: 16%; right: 16%;
+            height: 2px; background: var(--gray-200);
+        }
+        .step {
+            text-align: center; position: relative;
+            background: var(--gray-50); border-radius: 16px; padding: 40px 28px 36px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+        .step:hover {
+            background: white;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+            transform: translateY(-4px);
+        }
+        .step-number {
+            width: 56px; height: 56px; border-radius: 16px;
+            background: var(--blue); color: white;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: 800;
+            margin-bottom: 24px; position: relative; z-index: 2;
+        }
+        .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--dark); }
+        .step p { font-size: 0.88rem; color: var(--gray-500); max-width: 280px; margin: 0 auto; line-height: 1.65; }
+
+        /* ============ STAKEHOLDERS ============ */
+        .stakeholders { background: var(--gray-50); }
+        .stake-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        .stake-card {
+            background: white; border-radius: 16px; padding: 36px 28px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+        .stake-card:hover {
+            box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+            transform: translateY(-4px);
+        }
+        .stake-card-header {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+        }
+        .stake-card-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        .stake-card-icon.blue { background: var(--blue-light); }
+        .stake-card-icon.teal { background: var(--teal-light); }
+        .stake-card-icon.purple { background: #EDE9FE; }
+        .stake-card h3 {
+            font-size: 1.1rem; font-weight: 700; color: var(--dark);
+        }
+        .stake-card ul { list-style: none; padding: 0; }
+        .stake-card li {
+            padding: 8px 0; font-size: 0.9rem; color: var(--gray-700);
+            display: flex; align-items: flex-start; gap: 10px;
+            line-height: 1.5;
+        }
+        .stake-check {
+            width: 20px; height: 20px; border-radius: 6px;
+            background: var(--teal-light); color: var(--teal);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+        }
+
+        /* ============ NEWS SECTION (Skyfarer/Wingcopter-inspired) ============ */
+        .news { background: white; }
+        .news-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 48px; flex-wrap: wrap; gap: 24px;
+        }
+        .news-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+        }
+        .news-card {
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s; background: white;
+        }
+        .news-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.08);
+        }
+        .news-card-image {
+            aspect-ratio: 16/10;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 48px;
+            position: relative; overflow: hidden;
+        }
+        .news-card-image.bg-1 { background: linear-gradient(135deg, #0f3460, #1a2744); }
+        .news-card-image.bg-2 { background: linear-gradient(135deg, #134e4a, #0d9488); }
+        .news-card-image.bg-3 { background: linear-gradient(135deg, #312e81, #4f46e5); }
+        .news-card-body { padding: 24px; }
+        .news-card-tag {
+            display: inline-block; padding: 4px 10px; border-radius: 6px;
+            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .news-card-tag.blue { background: var(--blue-light); color: var(--blue); }
+        .news-card-tag.teal { background: var(--teal-light); color: var(--teal-dark); }
+        .news-card-tag.purple { background: #EDE9FE; color: #7C3AED; }
+        .news-card h3 {
+            font-size: 1.05rem; font-weight: 700; color: var(--dark);
+            margin-bottom: 8px; line-height: 1.4;
+        }
+        .news-card p { font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 16px; }
+        .news-card-link {
+            font-size: 0.85rem; font-weight: 600; color: var(--blue);
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+            transition: gap 0.2s;
+        }
+        .news-card-link:hover { gap: 10px; }
+        .news-card-link svg { width: 16px; height: 16px; }
+
+        /* ============ INVESTORS ============ */
+        .investors {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-800) 50%, #0f2744 100%);
+            color: white; position: relative; overflow: hidden;
+        }
+        .investors::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 80% 20%, rgba(10,122,255,0.1) 0%, transparent 50%);
+        }
+        .investors .section-inner { position: relative; z-index: 1; }
+        .investors .section-label { color: var(--teal); }
+        .investors .section-label::before { background: var(--teal); }
+        .investors .section-title { color: white; }
+        .investors .section-subtitle { color: rgba(255,255,255,0.55); }
+        .invest-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+        }
+        .invest-card {
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 32px; border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+        }
+        .invest-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+        }
+        .invest-card-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(20,184,166,0.15); display: flex;
+            align-items: center; justify-content: center;
+            font-size: 22px; margin-bottom: 18px;
+        }
+        .invest-card h3 {
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: white;
+        }
+        .invest-card p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+        .invest-cta { margin-top: 48px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+        /* ============ DEMO / CONTACT FORM (InterSystems-inspired) ============ */
+        .demo-section {
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+        }
+        .demo-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            align-items: start;
+        }
+        .demo-info h2 {
+            font-size: 2.2rem; font-weight: 800; color: var(--dark);
+            margin-bottom: 20px; line-height: 1.15; letter-spacing: -0.02em;
+        }
+        .demo-info p {
+            font-size: 1.02rem; color: var(--gray-500); margin-bottom: 32px;
+            line-height: 1.75;
+        }
+        .demo-benefits { list-style: none; padding: 0; }
+        .demo-benefits li {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 12px 0; font-size: 0.95rem; color: var(--gray-700);
+        }
+        .demo-benefits .check-icon {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--teal); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+        }
+        .demo-form-card {
+            background: white; border-radius: 20px; padding: 40px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--gray-200);
+        }
+        .demo-form-card h3 {
+            font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--dark);
+        }
+        .demo-form-card .form-subtitle {
+            font-size: 0.88rem; color: var(--gray-500); margin-bottom: 28px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-group label {
+            display: block; font-size: 0.82rem; font-weight: 600;
+            color: var(--gray-700); margin-bottom: 6px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 16px; border-radius: 10px;
+            border: 1.5px solid var(--gray-300); font-family: inherit;
+            font-size: 0.9rem; color: var(--dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--gray-50);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(10,122,255,0.12);
+            background: white;
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-submit { margin-top: 24px; }
+        .form-submit .btn { width: 100%; }
+
+        /* ============ CTA ============ */
+        .cta {
+            background: linear-gradient(135deg, var(--blue) 0%, #0968d9 50%, var(--blue-dark) 100%);
+            text-align: center; padding: 100px 32px;
+            position: relative; overflow: hidden;
+        }
+        .cta::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 50%);
+        }
+        .cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+        .cta h2 {
+            font-size: clamp(2rem, 3.5vw, 2.5rem);
+            font-weight: 800; color: white; margin-bottom: 18px;
+            letter-spacing: -0.02em;
+        }
+        .cta p { color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-bottom: 36px; line-height: 1.7; }
+        .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        /* ============ FOOTER (Wingcopter-inspired) ============ */
+        footer {
+            background: var(--dark); color: rgba(255,255,255,0.5);
+            padding: 0;
+        }
+        .footer-main {
+            max-width: 1280px; margin: 0 auto; padding: 64px 32px 48px;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+        }
+        .footer-brand .logo { color: white; margin-bottom: 16px; }
+        .footer-brand p {
+            font-size: 0.88rem; color: rgba(255,255,255,0.45);
+            line-height: 1.7; max-width: 280px;
+        }
+        .footer-socials {
+            display: flex; gap: 12px; margin-top: 24px;
+        }
+        .footer-social {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-social:hover { background: rgba(255,255,255,0.1); color: white; }
+        .footer-col h4 {
+            font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.8);
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;
+        }
+        .footer-col a {
+            display: block; padding: 6px 0; font-size: 0.88rem;
+            color: rgba(255,255,255,0.45); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: white; }
+
+        /* Newsletter */
+        .footer-newsletter {
+            margin-top: 20px;
+        }
+        .footer-newsletter input {
+            width: 100%; padding: 10px 14px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: white; font-family: inherit; font-size: 0.85rem;
+            margin-bottom: 10px; transition: border-color 0.2s;
+        }
+        .footer-newsletter input::placeholder { color: rgba(255,255,255,0.3); }
+        .footer-newsletter input:focus {
+            outline: none; border-color: var(--teal);
+        }
+        .footer-newsletter .btn {
+            width: 100%; padding: 10px 16px; font-size: 0.82rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 32px;
+        }
+        .footer-bottom-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-bottom a {
+            color: rgba(255,255,255,0.4); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-bottom a:hover { color: white; }
+        .footer-bottom-links { display: flex; gap: 24px; }
+
+        /* ============ MOBILE NAV ============ */
+        .mobile-menu {
+            display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+            background: white;
+            padding: 32px; z-index: 999;
+            overflow-y: auto;
+        }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a {
+            display: block; padding: 14px 0; color: var(--gray-700);
+            text-decoration: none; font-weight: 500; font-size: 1.05rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .mobile-menu .btn { margin-top: 20px; width: 100%; }
+
+        /* ============ SCROLL ANIMATIONS ============ */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1; transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-main { grid-template-columns: 1fr 1fr; }
+            .demo-grid { grid-template-columns: 1fr; gap: 48px; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 72px 20px; }
+            .nav-inner { padding: 0 20px; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .hero-content { padding: 100px 20px 80px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-desc { font-size: 1rem; }
+            .hero-stats { flex-direction: column; gap: 20px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-float-card { position: relative; bottom: auto; right: auto; margin-top: 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .steps::before { display: none; }
+            .stake-grid { grid-template-columns: 1fr; }
+            .news-grid { grid-template-columns: 1fr; }
+            .invest-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.8rem; }
+            .footer-main { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .partners-grid { gap: 24px; }
+            .about-highlights { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="#" class="logo">
+            <div class="logo-icon"><img src="logo.png" alt="MedPro"></div>
+            MedPro Drones
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#features">Platform</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#investors">Investors</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://med-pro-drones.lovable.app/auth" class="btn btn-primary btn-sm">Access Platform</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#features" onclick="toggleMenu()">Platform</a>
+    <a href="#how-it-works" onclick="toggleMenu()">How It Works</a>
+    <a href="#news" onclick="toggleMenu()">News</a>
+    <a href="#investors" onclick="toggleMenu()">Investors</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+    <a href="https://med-pro-drones.lovable.app/auth" class="btn btn-primary">Access Platform</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-slides">
+        <div class="hero-slide active">
+            <div class="hero-slide-bg"></div>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-slide">
+            <div class="hero-slide-bg"></div>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-slide">
+            <div class="hero-slide-bg"></div>
+            <div class="hero-overlay"></div>
+        </div>
+    </div>
+
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Now operating across Zimbabwe
+        </div>
+        <h1>Delivering the <span class="highlight">Future</span> of Healthcare Logistics</h1>
+        <p class="hero-desc">Autonomous drone delivery connecting clinics, labs, pharmacies, and government health systems in real time across Zimbabwe.</p>
+        <div class="hero-buttons">
+            <a href="https://med-pro-drones.lovable.app/auth" class="btn btn-primary btn-lg">Access Platform</a>
+            <a href="#about" class="btn btn-ghost btn-lg">Learn More &darr;</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">Real-Time</div>
+                <div class="hero-stat-label">GPS Delivery Tracking</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">4 Roles</div>
+                <div class="hero-stat-label">Integrated Health Ecosystem</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">100%</div>
+                <div class="hero-stat-label">Government Compliant</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-indicators">
+        <button class="hero-indicator active" data-slide="0"></button>
+        <button class="hero-indicator" data-slide="1"></button>
+        <button class="hero-indicator" data-slide="2"></button>
+    </div>
+</section>
+
+<!-- TRUSTED BY -->
+<div class="partners">
+    <div class="partners-inner">
+        <div class="partners-label">Trusted By Healthcare Leaders</div>
+        <div class="partners-grid">
+            <div class="partner-logo"><span class="p-icon">üèõÔ∏è</span> Zimbabwe MoHCC</div>
+            <div class="partner-logo"><span class="p-icon">üè•</span> NHS Partners</div>
+            <div class="partner-logo"><span class="p-icon">üî¨</span> National Labs</div>
+            <div class="partner-logo"><span class="p-icon">üíä</span> NATPHARM</div>
+            <div class="partner-logo"><span class="p-icon">üá¨üáß</span> UK Registered</div>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="section-inner">
+        <div class="about-grid">
+            <div class="about-visual reveal">
+                <div class="about-image-main"><img src="logo-teal-bg.jpg" alt="MedPro Essentials" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="about-float-card">
+                    <div class="about-float-icon">üöÅ</div>
+                    <div class="about-float-text">
+                        <strong>Autonomous Delivery</strong>
+                        <span>Connecting 16M+ people</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text reveal reveal-delay-2">
+                <div class="section-label">About MedPro</div>
+                <h2 class="section-title">Bridging the Last Mile in Healthcare</h2>
+                <p>In Zimbabwe, geography and infrastructure create barriers between patients and the medical supplies they need. Rural clinics wait days for blood samples to reach labs. Pharmacies struggle to restock critical medications on time.</p>
+                <p>MedPro Drones solves this with an end-to-end drone logistics platform purpose-built for healthcare. We connect every stakeholder in a single, real-time system.</p>
+                <div class="about-highlights">
+                    <div class="about-highlight">
+                        <div class="about-highlight-icon">üá¨üáß</div>
+                        <span>UK Registered Company</span>
+                    </div>
+                    <div class="about-highlight">
+                        <div class="about-highlight-icon">üåç</div>
+                        <span>Africa-Focused Operations</span>
+                    </div>
+                    <div class="about-highlight">
+                        <div class="about-highlight-icon">üì°</div>
+                        <span>Real-Time Connectivity</span>
+                    </div>
+                    <div class="about-highlight">
+                        <div class="about-highlight-icon">üõ°Ô∏è</div>
+                        <span>Regulatory Compliant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+    <div class="section-inner">
+        <div class="features-header">
+            <div class="features-header-text">
+                <div class="section-label">Platform Features</div>
+                <h2 class="section-title">Built for Healthcare, Designed for Scale</h2>
+                <p class="section-subtitle">Every feature is purpose-built to handle the complexity of medical supply chains across Zimbabwe's diverse terrain.</p>
+            </div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon blue">üìç</div>
+                <h3>Real-Time Delivery Tracking</h3>
+                <p>Track every drone delivery from dispatch to arrival with live GPS positioning and estimated delivery times.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon teal">üìã</div>
+                <h3>Automated Request Management</h3>
+                <p>Healthcare facilities submit requests through the platform and the system automatically routes and prioritises deliveries.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon amber">üèõÔ∏è</div>
+                <h3>Government Oversight Dashboard</h3>
+                <p>Full transparency for regulators with audit trails, compliance reporting, and real-time visibility into all operations.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <div class="feature-icon purple">üí¨</div>
+                <h3>Integrated Messaging</h3>
+                <p>Seamless communication between healthcare facilities, laboratories, pharmacies, and oversight bodies within the platform.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+    <div class="section-inner">
+        <div class="how-it-works-center">
+            <div class="section-label">How It Works</div>
+            <h2 class="section-title">From Request to Delivery in Minutes</h2>
+            <p class="section-subtitle">A streamlined process that removes bottlenecks from medical supply chains.</p>
+        </div>
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-number">1</div>
+                <h3>Request Submitted</h3>
+                <p>A healthcare facility, lab, or pharmacy submits a supply request through the MedPro platform.</p>
+            </div>
+            <div class="step reveal reveal-delay-1">
+                <div class="step-number">2</div>
+                <h3>Drone Dispatched</h3>
+                <p>The system identifies the optimal route and dispatches a drone with real-time tracking enabled.</p>
+            </div>
+            <div class="step reveal reveal-delay-2">
+                <div class="step-number">3</div>
+                <h3>Delivery Confirmed</h3>
+                <p>The recipient confirms delivery, the system logs the transaction, and oversight bodies have full visibility.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STAKEHOLDERS -->
+<section class="stakeholders" id="stakeholders">
+    <div class="section-inner">
+        <div class="section-label">Who We Serve</div>
+        <h2 class="section-title">One Platform, Every Stakeholder</h2>
+        <p class="section-subtitle">Purpose-built dashboards for each role in the healthcare supply chain.</p>
+        <div class="stake-grid">
+            <div class="stake-card reveal">
+                <div class="stake-card-header">
+                    <div class="stake-card-icon blue">üè•</div>
+                    <h3>Healthcare Facilities</h3>
+                </div>
+                <ul>
+                    <li><span class="stake-check">&#10003;</span> Request medical supplies and samples pickup</li>
+                    <li><span class="stake-check">&#10003;</span> Track incoming deliveries in real time</li>
+                    <li><span class="stake-check">&#10003;</span> Manage inventory and reorder automatically</li>
+                </ul>
+            </div>
+            <div class="stake-card reveal reveal-delay-1">
+                <div class="stake-card-header">
+                    <div class="stake-card-icon teal">üî¨</div>
+                    <h3>Laboratories</h3>
+                </div>
+                <ul>
+                    <li><span class="stake-check">&#10003;</span> Receive samples faster for quicker turnaround</li>
+                    <li><span class="stake-check">&#10003;</span> Send test results back via drone</li>
+                    <li><span class="stake-check">&#10003;</span> Coordinate with multiple facilities efficiently</li>
+                </ul>
+            </div>
+            <div class="stake-card reveal reveal-delay-2">
+                <div class="stake-card-header">
+                    <div class="stake-card-icon purple">üíä</div>
+                    <h3>Pharmacies</h3>
+                </div>
+                <ul>
+                    <li><span class="stake-check">&#10003;</span> Fulfill medication orders to remote clinics</li>
+                    <li><span class="stake-check">&#10003;</span> Reduce spoilage with faster delivery times</li>
+                    <li><span class="stake-check">&#10003;</span> Automated dispatch and confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWS -->
+<section class="news" id="news">
+    <div class="section-inner">
+        <div class="news-header">
+            <div>
+                <div class="section-label">Latest News</div>
+                <h2 class="section-title">Industry Updates</h2>
+            </div>
+        </div>
+        <div class="news-grid">
+            <div class="news-card reveal">
+                <div class="news-card-image bg-1"><img src="logo-white.png" alt="MedPro" style="width:60%;height:auto;object-fit:contain;position:relative;z-index:1;"></div>
+                <div class="news-card-body">
+                    <span class="news-card-tag blue">Medical Drones</span>
+                    <h3>UK Medical Drone Corridor Demonstrates Future of Healthcare Delivery</h3>
+                    <p>New CAA-approved drone corridors connecting hospitals across 32km are proving the viability of medical drone logistics in healthcare systems.</p>
+                    <a href="#" class="news-card-link">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                </div>
+            </div>
+            <div class="news-card reveal reveal-delay-1">
+                <div class="news-card-image bg-2"><img src="logo-teal-bg.jpg" alt="MedPro" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="news-card-body">
+                    <span class="news-card-tag teal">Africa</span>
+                    <h3>Drone Technology Transforming Healthcare Access in Sub-Saharan Africa</h3>
+                    <p>Autonomous drone delivery is bridging critical infrastructure gaps, bringing life-saving supplies to communities that need them most.</p>
+                    <a href="#" class="news-card-link">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                </div>
+            </div>
+            <div class="news-card reveal reveal-delay-2">
+                <div class="news-card-image bg-3"><img src="logo.png" alt="MedPro" style="width:60%;height:auto;object-fit:contain;position:relative;z-index:1;"></div>
+                <div class="news-card-body">
+                    <span class="news-card-tag purple">Platform</span>
+                    <h3>MedPro Drones Launches Government Compliance Dashboard</h3>
+                    <p>Our new oversight dashboard provides regulators with real-time visibility into all drone delivery operations and audit trails.</p>
+                    <a href="#" class="news-card-link">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INVESTORS -->
+<section class="investors" id="investors">
+    <div class="section-inner">
+        <div class="section-label">For Investors &amp; Partners</div>
+        <h2 class="section-title">Join the Future of Healthcare Logistics</h2>
+        <p class="section-subtitle">MedPro Drones is positioned at the intersection of healthcare, logistics, and drone technology in one of Africa's fastest-growing markets.</p>
+        <div class="invest-grid">
+            <div class="invest-card reveal">
+                <div class="invest-card-icon">üìà</div>
+                <h3>Massive Market Opportunity</h3>
+                <p>Zimbabwe's healthcare system serves 16 million people across challenging terrain. Drone logistics unlocks access to underserved communities at scale.</p>
+            </div>
+            <div class="invest-card reveal reveal-delay-1">
+                <div class="invest-card-icon">üèõÔ∏è</div>
+                <h3>Government-Ready Platform</h3>
+                <p>Built with compliance and transparency from day one. Our government oversight dashboard makes regulatory approval seamless.</p>
+            </div>
+            <div class="invest-card reveal reveal-delay-2">
+                <div class="invest-card-icon">üá¨üáß</div>
+                <h3>UK-Registered, Africa-Focused</h3>
+                <p>Registered in the UK with operations focused on Zimbabwe and expansion plans across the Southern African region.</p>
+            </div>
+            <div class="invest-card reveal reveal-delay-3">
+                <div class="invest-card-icon">‚ö°</div>
+                <h3>Technology-First Approach</h3>
+                <p>Full-stack platform with real-time tracking, automated routing, multi-role dashboards, and integrated communications.</p>
+            </div>
+        </div>
+        <div class="invest-cta">
+            <a href="mailto:admin@medprodrones.com" class="btn btn-teal btn-lg">Partner With Us</a>
+            <a href="#contact" class="btn btn-ghost btn-lg">Request a Demo</a>
+        </div>
+    </div>
+</section>
+
+<!-- DEMO / CONTACT FORM -->
+<section class="demo-section" id="contact">
+    <div class="section-inner">
+        <div class="demo-grid">
+            <div class="demo-info reveal">
+                <div class="section-label">Get Started</div>
+                <h2>Request a Platform Demo</h2>
+                <p>See how MedPro Drones can transform healthcare logistics in your region. Our team will walk you through the platform and answer any questions.</p>
+                <ul class="demo-benefits">
+                    <li><span class="check-icon">&#10003;</span> Live platform walkthrough with your team</li>
+                    <li><span class="check-icon">&#10003;</span> Custom deployment strategy for your region</li>
+                    <li><span class="check-icon">&#10003;</span> Integration assessment with existing systems</li>
+                    <li><span class="check-icon">&#10003;</span> Regulatory compliance consultation</li>
+                </ul>
+            </div>
+            <div class="demo-form-card reveal reveal-delay-2">
+                <h3>Contact Us</h3>
+                <p class="form-subtitle">Fill in the form below and our team will be in touch.</p>
+                <form onsubmit="handleFormSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name *</label>
+                            <input type="text" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name *</label>
+                            <input type="text" placeholder="Smith" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" placeholder="john@organisation.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Organisation</label>
+                        <input type="text" placeholder="Your organisation name">
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select>
+                            <option value="">Select your role</option>
+                            <option>Healthcare Provider</option>
+                            <option>Government Official</option>
+                            <option>Investor / Partner</option>
+                            <option>Laboratory</option>
+                            <option>Pharmacy</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea placeholder="Tell us about your needs..."></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="cta-inner">
+        <h2>Ready to Transform Healthcare Delivery?</h2>
+        <p>Whether you're a healthcare provider, government official, or potential partner ‚Äî get started with MedPro Drones today.</p>
+        <div class="cta-buttons">
+            <a href="https://med-pro-drones.lovable.app/auth" class="btn btn-white btn-lg">Access the Platform</a>
+            <a href="mailto:admin@medprodrones.com" class="btn btn-ghost btn-lg">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <a href="#" class="logo">
+                <div class="logo-icon"><img src="logo-teal-bg.jpg" alt="MedPro Essentials"></div>
+                MedPro Drones
+            </a>
+            <p>Revolutionising medical logistics with autonomous drone delivery across Zimbabwe and beyond.</p>
+            <div class="footer-socials">
+                <a href="#" class="footer-social" aria-label="LinkedIn">in</a>
+                <a href="#" class="footer-social" aria-label="Twitter">X</a>
+                <a href="mailto:admin@medprodrones.com" class="footer-social" aria-label="Email">@</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Explore</h4>
+            <a href="#about">About</a>
+            <a href="#features">Platform</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#stakeholders">Stakeholders</a>
+            <a href="#news">News</a>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="#investors">Investors</a>
+            <a href="#contact">Contact</a>
+            <a href="https://med-pro-drones.lovable.app/auth">Access Platform</a>
+            <a href="mailto:admin@medprodrones.com">Email Us</a>
+        </div>
+        <div class="footer-col">
+            <h4>Newsletter</h4>
+            <p style="font-size:0.85rem;color:rgba(255,255,255,0.4);margin-bottom:16px;">Stay updated on our latest developments.</p>
+            <div class="footer-newsletter">
+                <input type="email" placeholder="Your email address">
+                <button class="btn btn-teal btn-sm" style="width:100%">Subscribe</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <div>&copy; 2026 MedPro Drones. All rights reserved.</div>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Nav scroll effect
+    window.addEventListener('scroll', () => {
+        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Mobile menu
+    function toggleMenu() {
+        document.getElementById('mobileMenu').classList.toggle('active');
+    }
+
+    // Hero carousel
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('.hero-indicator');
+
+    function goToSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        indicators[currentSlide].classList.remove('active');
+        currentSlide = n;
+        slides[currentSlide].classList.add('active');
+        indicators[currentSlide].classList.add('active');
+    }
+
+    indicators.forEach(ind => {
+        ind.addEventListener('click', () => goToSlide(parseInt(ind.dataset.slide)));
+    });
+
+    setInterval(() => {
+        goToSlide((currentSlide + 1) % slides.length);
+    }, 6000);
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Form handler
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.textContent = 'Message Sent!';
+        btn.style.background = '#14B8A6';
+        setTimeout(() => {
+            btn.textContent = 'Send Message';
+            btn.style.background = '';
+            e.target.reset();
+        }, 3000);
+    }
+</script>
+</body>
+</html>
